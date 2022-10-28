@@ -1,0 +1,6 @@
+[submodule "PYNQ"]
+	path = PYNQ
+	url = https://github.com/farzamgl/PYNQ
+[submodule "Ultra96-PYNQ"]
+	path = Ultra96-PYNQ
+	url = https://github.com/farzamgl/Ultra96-PYNQ
