@@ -4,3 +4,6 @@
 [submodule "Ultra96-PYNQ"]
 	path = Ultra96-PYNQ
 	url = https://github.com/farzamgl/Ultra96-PYNQ
+[submodule "ZC706-PYNQ"]
+	path = ZC706-PYNQ
+	url = git@github.com:black-parrot-hdk/ZC706-PYNQ.git
