@@ -1,5 +1,5 @@
 # pynq-image
-This repo is used to build custom SD card images for PYNQ based boards PYNQ-Z2 and Ultra96v2.
+This repo is used to build custom SD card images for PYNQ based boards PYNQ-Z2, Ultra96v2, and ZC706.
 
 ## Prerequisites
 ### Ubuntu 18.04
@@ -19,17 +19,20 @@ To avoid redoing this every time we run the build we can pre-download the direct
 The `README` file in the Xilinx download page describes how to extract the files and where to put them in the PetaLinux install directory.
 
 ### Prebuilt board-agnostic Linux image
-To save time on the build process, we need to download the prebuilt Linux image v2.6(<a href="http://www.pynq.io/board.html" target="_blank">here</a>) for the board's ARM architecture(`arm` for PYNQ-Z2 and `aarch64` for Ultra96v2).
-Using the PREBUILT flag to point to this image will skip the the board-agnostic stage of the build.
+To save time on the build process, we need to download the prebuilt Linux image v2.6(<a href="http://www.pynq.io/board.html" target="_blank">here</a>) for the board's ARM architecture(`arm` for {PYNQ-Z2, ZC706.} and `aarch64` for Ultra96v2).
+Using the `PREBUILT` flag to point to this image will skip the the board-agnostic stage of the build.
 
 ### PYNQ source distribution
 To avoid rebuilding the PYNQ source distribution package, and consequently bypass the need to build bitstreams and MicroBlazes’ bsps and binaries,
 we need to download a prebuilt PYNQ sdist tarball v2.6 from the <a href="https://github.com/Xilinx/PYNQ/releases" target="_blank">PYNQ releases section</a>.
-The PYNQ_SDIST flag is used during build to point to this tarball.
+The `PYNQ_SDIST` flag is used during build to point to this tarball.
 
-## Building the Ultra96v2 custom BSP
-On our Ultra96v2 boards, we have enabled a anti-freezing mechanism using OS based watchdog timers, so before building the final image we need to build its custom BSP file.
+## Building custom BSPs
+On some boards, we have enabled a anti-freezing mechanism using OS based watchdog timers, so before building the final image we need to build its custom BSP file.
+### Ultra96v2 BSP
 To do this go into the Ultra96-PYNQ submodule and follow the instructions in `README` on "Creating your own BSP".
+### ZC706 BSP
+To do this go into the ZC706-PYNQ submodule and follow the instructions in `README`.
 
 ## Build
 Before building the image make sure all the prerequisites are present and make sure you have a few hours, 50-100 GBs of free disk space, and enough RAM and CPU.
@@ -42,10 +45,13 @@ To build the image for PYNQ-Z2 go into `PYNQ/sdbuild` and run:
 
     make BOARDS=Pynq-Z2 PREBUILT=<path to bionic.arm.<version>.img> PYNQ_SDIST=<path to pynq-<version>.tar.gz>
 ### Ultra96v2
-To build the image for PYNQ-Z2 go into `PYNQ/sdbuild` and run:
+To build the image for Ultra96v2 go into `PYNQ/sdbuild` and run:
 
     make BOARDDIR=<path to Ultra96-PYNQ submodule> PREBUILT=<path to bionic.aarch64.<version>.img> PYNQ_SDIST=<pynq-<version>.tar.gz>
- 
- ## Changing CMA size
- If you need to change the CMA memory size for allocating larger memories during benchmarks runs, you can change it at `PYNQ/sdbuild/boot/meta-pynq/recipes-kernel/linux/linux-xlnx/pynq.cfg` before running the build.
- The current CMA size is set to 256MB.
+### ZC706
+To build the image for ZC706 go into `PYNQ/sdbuild` and run:
+
+    make BOARDDIR=<path to ZC706-PYNQ submodule> PREBUILT=<path to bionic.arm.<version>.img> PYNQ_SDIST=<path to pynq-<version>.tar.gz>
+
+## Changing CMA size
+If you need to change the CMA memory size for allocating larger memories during benchmarks runs, you can change it at `PYNQ/sdbuild/boot/meta-pynq/recipes-kernel/linux/linux-xlnx/pynq.cfg` before running the build. The current CMA size is set to 256MB.
